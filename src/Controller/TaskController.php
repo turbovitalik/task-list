@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Core\Response;
 use App\Core\View;
 
 class TaskController
@@ -17,7 +16,7 @@ class TaskController
 
         $view = new View();
 
-        return $view->render('task/list');
+        return $view->render('task/list', ['foo' => 'bar']);
     }
 
 }

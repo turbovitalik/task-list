@@ -18,7 +18,12 @@ class View
             throw new \Exception("View file not found ('$view') in 'views' folder");
         }
 
-        $content = file_get_contents($viewFile);
+        extract($params);
+
+        ob_start();
+        include($viewFile);
+        $content = ob_get_contents();
+        ob_end_clean();
 
 
         $response = new Response();
