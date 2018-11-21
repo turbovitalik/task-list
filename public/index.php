@@ -2,6 +2,8 @@
 
 require '../vendor/autoload.php';
 
+define('APP_ROOT', __DIR__ . '/../');
+
 try {
     $dotenv = new \Dotenv\Dotenv(__DIR__ . '/../');
     $dotenv->load();

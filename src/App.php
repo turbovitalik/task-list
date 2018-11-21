@@ -2,6 +2,9 @@
 
 namespace App;
 
+use App\Controller\TaskController;
+use App\Core\Request;
+use App\Core\Response;
 use PDO;
 
 class App
@@ -22,11 +25,27 @@ class App
 
     public function run()
     {
-        $sql = "select * from tasks";
-        $stmt = $this->db->query($sql, PDO::FETCH_ASSOC);
+        $request = new Request();
 
-        $result = $stmt->fetchAll();
+        $response = $this->handleRequest($request);
 
-        var_dump($result);
+        $response->send();
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function handleRequest(Request $request): Response
+    {
+
+
+        $controller = new TaskController();
+
+        $method = 'index';
+
+        $response = $controller->{$method}();
+
+        return $response;
     }
 }
