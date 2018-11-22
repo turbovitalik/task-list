@@ -9,7 +9,7 @@ use App\Model\Task;
 use App\Repository\TaskRepository;
 use App\Service\TaskService;
 
-class TaskController
+class TaskController extends BaseController
 {
     public function __construct(Request $request)
     {
@@ -61,6 +61,15 @@ class TaskController
         $taskRepository = new TaskRepository();
 
         $taskRepository->addTask($task);
+    }
+
+    public function edit()
+    {
+        if (!$this->isAdmin()) {
+            return $this->resourceForbidden();
+        }
+
+
     }
 
 }

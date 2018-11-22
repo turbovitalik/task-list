@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Controller\TaskController;
+use App\Core\Auth;
 use App\Core\Request;
 use App\Core\Response;
 use App\Core\Router;
@@ -21,13 +21,27 @@ class App
     protected $router;
 
     /**
+     * @var Auth
+     */
+    protected $auth;
+
+    /**
+     * @var App
+     */
+    private static $instance;
+
+    /**
      * App constructor.
      * @param PDO $db
      */
-    public function __construct(PDO $db, Router $router)
+    public function __construct(PDO $db, Router $router, Auth $auth)
     {
         $this->db = $db;
         $this->router = $router;
+        $this->auth = $auth;
+
+        self::$instance = $this;
+
     }
 
     public function run()
@@ -48,5 +62,21 @@ class App
         $response = $this->router->dispatch($request);
 
         return $response;
+    }
+
+    /**
+     * @return App
+     */
+    public static function getInstance()
+    {
+        return self::$instance;
+    }
+
+    /**
+     * @return Auth
+     */
+    public function getAuth()
+    {
+        return $this->auth;
     }
 }

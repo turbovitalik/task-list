@@ -1,6 +1,7 @@
 {
     "require": {
-        "vlucas/phpdotenv": "^2.5"
+        "vlucas/phpdotenv": "^2.5",
+        "aura/session": "^2.1"
     },
     "autoload": {
         "psr-4": {
