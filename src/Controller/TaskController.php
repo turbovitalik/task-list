@@ -22,12 +22,16 @@ class TaskController
 
         $request = $this->request;
 
-        $pageOffset = $request->get('offset');
-        $limit = $request->get('limit');
+        $sortBy = $request->get('sortBy');
+        $order = $request->get('order');
+        $page = $request->get('page');
 
-        $tasks = $taskService->getTaskList($pageOffset, $limit);
+        $sort = [];
+        $sort[$sortBy] = $order;
 
-        $paginator = new Paginator();
+        $tasks = $taskService->getTaskList($page, $sort);
+
+        $paginator = new Paginator($this->request, $taskRepository);
 
 
         $view = new View();

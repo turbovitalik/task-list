@@ -9,6 +9,14 @@ class Request
      */
     protected $queryParams = [];
 
+    /**
+     * @var string
+     */
+    protected $uri;
+
+    /**
+     * @return Request
+     */
     public static function createFromGlobals(): Request
     {
         $request = new self();
@@ -36,4 +44,37 @@ class Request
         return array_key_exists($key, $this->queryParams) ? $this->queryParams[$key] : null;
     }
 
+    /**
+     * @return string
+     */
+    public function getRequestUri()
+    {
+        return $this->uri;
+    }
+
+    /**
+     * @return array
+     */
+    public function getQueryParams()
+    {
+        return $this->queryParams;
+    }
+
+    /**
+     * @param array $paramsArray
+     * @return string
+     */
+    public function getQueryStringFromParams(array $paramsArray): string
+    {
+        $queryString = '';
+
+        foreach ($paramsArray as $key => $value) {
+            if ($queryString) {
+                $queryString .= '&';
+            }
+            $queryString .= $key . '=' . $value;
+        }
+
+        return $queryString;
+    }
 }
