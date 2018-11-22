@@ -25,6 +25,11 @@ class Request
     protected $method;
 
     /**
+     * @var string
+     */
+    protected $body;
+
+    /**
      * @var array
      */
     protected $post = [];
@@ -62,7 +67,8 @@ class Request
     }
 
     /**
-     * @return string|null
+     * @param string $key
+     * @return null|string
      */
     public function post(string $key): ?string
     {
@@ -107,6 +113,14 @@ class Request
     public function getQueryParams()
     {
         return $this->queryParams;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBody()
+    {
+        return $this->body;
     }
 
     /**

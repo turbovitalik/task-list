@@ -17,6 +17,7 @@ class Mysql
      * @param string $db
      * @param string $user
      * @param string $password
+     * @throws \Exception
      */
     public function __construct(string $host, string $db, string $user, string $password)
     {

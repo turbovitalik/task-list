@@ -27,6 +27,9 @@ class TaskMapper
 
     /**
      * @param array $criteria
+     * @param int|null $offset
+     * @param int|null $limit
+     * @param array $sort
      * @return array
      */
     public function select($criteria = [], int $offset = null, int $limit = null, array $sort = [])

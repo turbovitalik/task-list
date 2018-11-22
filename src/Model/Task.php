@@ -16,16 +16,6 @@ class Task
      */
     protected $updated;
 
-//    public function __construct($id = null, $username = null, $email = null, $text = null, $image = null, $done = null)
-//    {
-//        $this->username = $username;
-//        $this->email = $email;
-//        $this->text = $text;
-//        $this->image = $image;
-//        $this->id = $id; //todo: remove that later
-//        $this->done = $done;
-//    }
-
     /**
      * @return int
      */
