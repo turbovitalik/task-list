@@ -6,9 +6,6 @@ use App\Repository\TaskRepository;
 
 class TaskService
 {
-    //todo: duplication
-    const ITEMS_PER_PAGE = 3;
-
     protected $repository;
 
     public function __construct(TaskRepository $repository)
@@ -19,11 +16,11 @@ class TaskService
     /**
      * @return array
      */
-    public function getTaskList(int $page, array $sortBy = []): array
+    public function getTaskList(int $itemsPerPage, int $page = 0, array $sortBy = []): array
     {
-        $offset = $page ? ($page - 1) * self::ITEMS_PER_PAGE : 0;
+        $offset = $page ? ($page - 1) * $itemsPerPage : 0;
 
-        $tasks = $this->repository->findBy($offset, self::ITEMS_PER_PAGE, $sortBy);
+        $tasks = $this->repository->findBy($offset, $itemsPerPage, $sortBy);
 
         return $tasks;
     }

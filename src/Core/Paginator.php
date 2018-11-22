@@ -6,25 +6,42 @@ use App\Repository\TaskRepository;
 
 class Paginator
 {
+    /**
+     * @var int
+     */
+    protected $itemsPerPage;
 
-    // todo: duplication
-    const ITEMS_PER_PAGE = 3;
-
+    /**
+     * @var int
+     */
     protected $current;
 
+    /**
+     * Paginator constructor.
+     * @param Request $request
+     * @param TaskRepository $repo
+     */
     public function __construct(Request $request, TaskRepository $repo)
     {
         $this->request = $request;
         $this->repo = $repo;
 
-        $this->current = $this->setCurrentPage();
+        $this->current = $this->resolveCurrentPageFromRequest();
+    }
+
+    /**
+     * @param int $number
+     */
+    public function setItemsPerPage(int $number)
+    {
+        $this->itemsPerPage = $number;
     }
 
     public function view()
     {
         $html = '<nav aria-label="Page navigation example"><ul class="pagination">';
 
-        for ($i = 1; $i <= $this->getPagesCount(self::ITEMS_PER_PAGE); $i++) {
+        for ($i = 1; $i <= $this->getPagesCount($this->itemsPerPage); $i++) {
 
             $disabled = $i == $this->current ? ' disabled' : '';
             $href = $this->resolvePageHref($i);
@@ -37,7 +54,10 @@ class Paginator
         return $html;
     }
 
-    private function setCurrentPage()
+    /**
+     * @return int
+     */
+    private function resolveCurrentPageFromRequest()
     {
         $current = (int) $this->request->get('page');
 
@@ -66,16 +86,15 @@ class Paginator
     public function resolvePageHref(int $i): string
     {
         $href = '';
-
-        $requestUri = $this->request->getRequestUri();
-
         $queryParams = $this->request->getQueryParams();
         unset($queryParams['page']);
 
         $queryString = $this->request->getQueryStringFromParams($queryParams);
 
-        if (preg_match('~(.*)\?.*~', $requestUri, $match)) {
+        if (preg_match('~(.*)\?.*~', $this->request->getRequestUri(), $match)) {
             $routePath = $match[1];
+        } else {
+            $routePath = $this->request->getRequestUri();
         }
 
         $href .= $routePath . '?' . $queryString;

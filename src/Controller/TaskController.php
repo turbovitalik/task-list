@@ -22,16 +22,19 @@ class TaskController
 
         $request = $this->request;
 
+        $itemsPerPage = 3;
+
         $sortBy = $request->get('sortBy');
         $order = $request->get('order');
-        $page = $request->get('page');
+        $page = $request->get('page') ?? 1;
 
         $sort = [];
         $sort[$sortBy] = $order;
 
-        $tasks = $taskService->getTaskList($page, $sort);
+        $tasks = $taskService->getTaskList($itemsPerPage, $page, $sort);
 
         $paginator = new Paginator($this->request, $taskRepository);
+        $paginator->setItemsPerPage($itemsPerPage);
 
 
         $view = new View();
