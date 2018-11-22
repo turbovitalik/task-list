@@ -79,4 +79,12 @@ class App
     {
         return $this->auth;
     }
+
+    /**
+     * @return PDO
+     */
+    public function getDb()
+    {
+        return $this->db;
+    }
 }

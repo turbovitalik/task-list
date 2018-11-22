@@ -2,65 +2,78 @@
 
 namespace App\Controller;
 
+use App\App;
 use App\Core\Paginator;
 use App\Core\Request;
 use App\Core\View;
+use App\Database\TaskMapper;
 use App\Model\Task;
 use App\Repository\TaskRepository;
 use App\Service\TaskService;
 
 class TaskController extends BaseController
 {
-    public function __construct(Request $request)
+    /**
+     * @var TaskRepository
+     */
+    protected $taskRepository;
+
+    public function __construct(Request $request, View $view)
     {
-        $this->request = $request;
+        parent::__construct($request, $view);
+
+        $db = App::getInstance()->getDb();
+
+        $mapper = new TaskMapper($db);
+
+        $taskRepository = new TaskRepository($mapper);
+
+        $this->taskRepository = $taskRepository;
     }
 
     public function index()
     {
-        $taskRepository = new TaskRepository();
-        $taskService = new TaskService($taskRepository);
-
-        $request = $this->request;
+        $taskService = new TaskService($this->taskRepository);
 
         $itemsPerPage = 3;
 
-        $sortBy = $request->get('sortBy');
-        $order = $request->get('order');
-        $page = $request->get('page') ?? 1;
+        $sortBy = $this->request->get('sortBy');
+        $order = $this->request->get('order');
+        $page = $this->request->get('page') ?? 1;
 
         $sort = [];
-        $sort[$sortBy] = $order;
+
+        if ($sortBy) {
+            $order = $order ? $order : 'ASC';
+            $sort[$sortBy] = $order;
+        }
 
         $tasks = $taskService->getTaskList($itemsPerPage, $page, $sort);
 
-        $paginator = new Paginator($this->request, $taskRepository);
+        $paginator = new Paginator($this->request, $this->taskRepository);
         $paginator->setItemsPerPage($itemsPerPage);
 
 
-        $view = new View();
-
-        return $view->render('task/list', ['tasks' => $tasks, 'pagination' => $paginator->view()]);
+        return $this->view->render('task/list', ['tasks' => $tasks, 'pagination' => $paginator->view()]);
     }
 
     public function create()
     {
-        $view = new View();
-
-        return $view->render('task/new', []);
+        return $this->view->render('task/new', []);
     }
 
     public function store()
     {
-        $request = $this->request;
-
-        $postData = $request->getPost();
-
-        $task = Task::create($postData);
+        $postData = $this->request->getPost();
 
         $taskRepository = new TaskRepository();
 
-        $taskRepository->addTask($task);
+        if (isset($postData['id'])) {
+            $taskRepository->update($postData['id'], $postData);
+        } else {
+            $task = Task::create($postData);
+            $taskRepository->addTask($task);
+        }
     }
 
     public function edit()
@@ -69,7 +82,17 @@ class TaskController extends BaseController
             return $this->resourceForbidden();
         }
 
+        $id = (int) $this->request->get('id');
 
+        $taskRepository = new TaskRepository();
+
+        $task = $taskRepository->find($id);
+
+        if (!$task) {
+            return $this->resourceNotFound();
+        }
+
+        return $this->view->render('task/edit', ['task' => $task]);
     }
 
 }

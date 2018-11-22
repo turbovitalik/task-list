@@ -20,7 +20,9 @@ class Router
         $controllerName = $resolvedParts[0];
         $action = $resolvedParts[1];
 
-        $controller = new $controllerName($request);
+        $view = new View();
+
+        $controller = new $controllerName($request, $view);
         $response = $controller->{$action}();
 
         return $response;

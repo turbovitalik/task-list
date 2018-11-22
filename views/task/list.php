@@ -1,4 +1,16 @@
 <?php include APP_ROOT . 'views/header.php'; ?>
+<p>
+    <a class="btn btn-primary" href="/task/list?sortBy=username&order=asc&page=1" role="button">Sort by username (asc)</a>
+    <a class="btn btn-primary" href="/task/list?sortBy=username&order=desc&page=1" role="button">Sort by username (desc)</a>
+</p>
+<p>
+    <a class="btn btn-primary" href="/task/list?sortBy=email&order=asc&page=1" role="button">Sort by email (asc)</a>
+    <a class="btn btn-primary" href="/task/list?sortBy=email&order=desc&page=1" role="button">Sort by email (desc)</a>
+</p>
+<p>
+    <a class="btn btn-primary" href="/task/list?sortBy=done&order=asc&page=1" role="button">Sort by status (asc)</a>
+    <a class="btn btn-primary" href="/task/list?sortBy=done&order=desc&page=1" role="button">Sort by status (desc)</a>
+</p>
 <div class="row">
     <?php foreach ($tasks as $task) { ?>
     <div class="col-md-4">
@@ -9,6 +21,13 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <small class="text-muted"><?php echo $task->getUsername(); ?></small>
                     <small class="text-muted"><?php echo $task->getEmail(); ?></small>
+                </div>
+                <p></p>
+                <div class="btn-group">
+                    <?php
+                    $btnClass = $task->getDone() ? 'success' : 'warning';
+                    ?>
+                    <button type="button" class="btn btn-sm btn-<?php echo $btnClass; ?>"><?php echo $task->isDone(); ?></button>
                 </div>
             </div>
         </div>
