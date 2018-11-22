@@ -10,7 +10,7 @@ class Task
     protected $text;
     protected $image;
 
-    public function __construct($username, $email, $text, $image)
+    public function __construct($username = null, $email = null, $text = null, $image = null)
     {
         $this->username = $username;
         $this->email = $email;
@@ -45,6 +45,21 @@ class Task
     public function getEmail()
     {
         return $this->email;
+    }
+
+
+    //todo: probably, have to move it out
+    public static function create(array $data)
+    {
+        $task = new self();
+
+        foreach ($data as $key => $value) {
+            if (property_exists($task, $key)) {
+                $task->{$key} = $value;
+            }
+        }
+
+        return $task;
     }
 
 }

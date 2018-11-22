@@ -70,6 +70,14 @@ class Request
     }
 
     /**
+     * @return array
+     */
+    public function getPost()
+    {
+        return $this->post;
+    }
+
+    /**
      * @return string
      */
     public function getRequestUri()

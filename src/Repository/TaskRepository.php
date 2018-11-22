@@ -47,6 +47,11 @@ class TaskRepository
         return $tasks;
     }
 
+    public function addTask(Task $task)
+    {
+        $this->repo[] = $task;
+    }
+
     public function findAll()
     {
         return $this->repo;

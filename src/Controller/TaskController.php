@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Core\Paginator;
 use App\Core\Request;
 use App\Core\View;
+use App\Model\Task;
 use App\Repository\TaskRepository;
 use App\Service\TaskService;
 
@@ -53,7 +54,13 @@ class TaskController
     {
         $request = $this->request;
 
-        var_dump($request);die;
+        $postData = $request->getPost();
+
+        $task = Task::create($postData);
+
+        $taskRepository = new TaskRepository();
+
+        $taskRepository->addTask($task);
     }
 
 }
