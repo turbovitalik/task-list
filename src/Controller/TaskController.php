@@ -44,12 +44,16 @@ class TaskController
 
     public function create()
     {
-        echo 'Create';die;
+        $view = new View();
+
+        return $view->render('task/new', []);
     }
 
     public function store()
     {
-        echo 'Store';die;
+        $request = $this->request;
+
+        var_dump($request);die;
     }
 
 }
