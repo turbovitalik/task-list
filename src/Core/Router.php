@@ -2,8 +2,6 @@
 
 namespace App\Core;
 
-use App\Controller\TaskController;
-
 class Router
 {
     /**
@@ -36,14 +34,14 @@ class Router
         $this->routeMap = $map;
     }
 
+    /**
+     * @param string $path
+     * @return array
+     * @throws \Exception
+     */
     public function resolveController(string $path)
     {
-
-        $routeMap = [
-            'task/list' => 'App\Controller\TaskController::index',
-            'task/create' => 'App\Controller\TaskController::create',
-            'task/store' => 'App\Controller\TaskController::store',
-        ];
+        $routeMap = $this->routeMap;
 
         $match = array_key_exists($path, $routeMap) ? $routeMap[$path] : false;
 
@@ -52,16 +50,19 @@ class Router
             throw new \Exception("Route '$path' is not defined");
         }
 
-
         $parts = explode('::', $match);
 
         return [$parts[0], $parts[1]];
-
     }
 
-    public function addRoute()
+    /**
+     * @param $path
+     * @param $action
+     */
+    public function addRoute($path, $action)
     {
-        //todo: some validation logic
+        // todo: add some validation
+        $this->routeMap[$path] = $action;
     }
 
 }
