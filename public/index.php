@@ -20,6 +20,7 @@ $router = new \App\Core\Router();
 $router->addRoute('task/list', \App\Controller\TaskController::class . '::index');
 $router->addRoute('task/create', \App\Controller\TaskController::class . '::create');
 $router->addRoute('task/store', \App\Controller\TaskController::class . '::store');
+$router->addRoute('login', \App\Controller\LoginController::class . '::index');
 
 // Init application object
 $app = new App\App($mysql->getConnection(), $router);
