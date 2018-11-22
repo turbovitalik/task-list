@@ -65,14 +65,15 @@ class TaskController extends BaseController
     {
         $postData = $this->request->getPost();
 
-        $taskRepository = new TaskRepository();
-
         if (isset($postData['id'])) {
-            $taskRepository->update($postData['id'], $postData);
+            $this->taskRepository->update($postData['id'], $postData);
         } else {
             $task = Task::create($postData);
-            $taskRepository->addTask($task);
+            $this->taskRepository->add($task);
         }
+
+        //todo: not good, implement redirect() method later
+        header('Location: /task/list');
     }
 
     public function edit()

@@ -2,6 +2,8 @@
 
 namespace App\Database;
 
+use App\Model\Task;
+
 class TaskMapper
 {
     /**
@@ -67,23 +69,26 @@ class TaskMapper
     }
 
     /**
-     * @param Address $address
+     * @param Task $task
      * @return bool
      */
-    public function insert(Address $address)
+    public function insert(Task $task)
     {
-        $query = "insert into {$this->table} (label, street, house_number, postal_code, city, country, comments)
-            values (:label, :street, :houseNumber, :postalCode, :city, :country, :comments)";
+        $query = "insert into {$this->table} (username, email, text)
+            values (:username, :email, :text)";
         $stmt = $this->connection->prepare($query);
-        $stmt->bindParam(':label', $address->label);
-        $stmt->bindParam(':street', $address->street);
-        $stmt->bindParam(':houseNumber', $address->houseNumber);
-        $stmt->bindParam(':postalCode', $address->postalCode);
-        $stmt->bindParam(':city', $address->city);
-        $stmt->bindParam(':country', $address->country);
-        $stmt->bindParam(':comments', $address->comments);
+
+        $username = $task->getUsername();
+        $email = $task->getEmail();
+        $text = $task->getText();
+
+        $stmt->bindParam(':username', $username);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':text', $text);
+
         return $stmt->execute();
     }
+
     public function update($id, Address $address)
     {
         $id = (int) $id;
@@ -102,6 +107,11 @@ class TaskMapper
         }
         return $stmt->execute();
     }
+
+    /**
+     * @param $attributes
+     * @return string
+     */
     private function getQuerySetString($attributes)
     {
         $queryStr = '';
@@ -112,16 +122,17 @@ class TaskMapper
         });
         return $queryStr;
     }
-    private function mapObjectToArray(Address $address)
+
+    /**
+     * @param Task $task
+     * @return array
+     */
+    private function mapObjectToArray(Task $task)
     {
         return [
-            'label' => $address->getLabel(),
-            'street' => $address->getStreet(),
-            'house_number' => $address->getHouseNumber(),
-            'postal_code' => $address->getPostalCode(),
-            'city' => $address->getCity(),
-            'country' => $address->getCountry(),
-            'comments' => $address->getComments()
+            'username' => $task->getUsername(),
+            'email' => $task->getEmail(),
+            'text' => $task->getText(),
         ];
     }
 

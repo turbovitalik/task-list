@@ -130,8 +130,6 @@ class Task
 
     public function __set($name, $value)
     {
-        var_dump($name);var_dump($value);die;
-
         $method = 'set' . ucfirst($this->nameCamelCase($name));
         if (method_exists($this, $method)) {
             $this->{$method}($value);
@@ -139,6 +137,15 @@ class Task
             $this->{$name} = $value;
         } else {
             throw new \Exception("Property '$name' does not exist");
+        }
+    }
+
+    public function __get($name)
+    {
+        $name = $this->nameCamelCase($name);
+
+        if (property_exists($this, $name)) {
+            return $this->{$name};
         }
     }
 

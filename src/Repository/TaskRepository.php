@@ -59,9 +59,9 @@ class TaskRepository
         return $this->mapper->select([], $offset, $limit, $sortBy);
     }
 
-    public function addTask(Task $task)
+    public function add(Task $task)
     {
-        $this->repo[] = $task;
+        $this->mapper->insert($task);
     }
 
     public function update($id, $data)
