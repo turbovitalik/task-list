@@ -28,6 +28,9 @@
                     $btnClass = $task->getDone() ? 'success' : 'warning';
                     ?>
                     <button type="button" class="btn btn-sm btn-<?php echo $btnClass; ?>"><?php echo $task->isDone(); ?></button>
+                    <?php if ($isAdmin) { ?>
+                        <a class="btn btn-sm btn-info" href="/task/edit?id=<?php echo $task->getId(); ?>">Edit</a>
+                    <?php } ?>
                 </div>
             </div>
         </div>

@@ -55,10 +55,15 @@ class Auth
         return true;
     }
 
+    public function logout()
+    {
+        $this->userSession->set('authenticated', false);
+    }
+
     /**
-     * @return bool
+     * @return bool | null
      */
-    public function isAuthenticated(): bool
+    public function isAuthenticated()
     {
         return $this->userSession->get('authenticated');
     }

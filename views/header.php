@@ -56,6 +56,7 @@
                     <a href="/login" class="btn btn-primary my-2">Login</a>
                     <a href="/task/create" class="btn btn-primary my-2">Create Task</a>
                     <a href="/task/list" class="btn btn-secondary my-2">Back to list</a>
+                    <a href="/logout" class="btn btn-secondary my-2">Logout</a>
                 </p>
             </div>
         </section>

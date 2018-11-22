@@ -45,8 +45,6 @@ class BaseController
 
         $isAdmin = $app->getAuth()->isAuthenticated();
 
-        var_dump($isAdmin);
-
         return $isAdmin;
     }
 }

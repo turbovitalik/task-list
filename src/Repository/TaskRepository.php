@@ -96,13 +96,15 @@ class TaskRepository
         return $this->mapper->select([]);
     }
 
-    public function find($id)
+    /**
+     * @param int $id
+     * @return Task
+     */
+    public function find(int $id)
     {
-        foreach ($this->repo as $task) {
-            if ($task->getId() == $id) {
-                return $task;
-            }
-        }
+        $result = $this->mapper->select(['id' => $id]);
+
+        return $result[0];
     }
 
 

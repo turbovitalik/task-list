@@ -30,6 +30,7 @@ $router->addRoute('task/create', \App\Controller\TaskController::class . '::crea
 $router->addRoute('task/store', \App\Controller\TaskController::class . '::store');
 $router->addRoute('task/edit', \App\Controller\TaskController::class . '::edit');
 $router->addRoute('login', \App\Controller\LoginController::class . '::index');
+$router->addRoute('logout', \App\Controller\LoginController::class . '::logout');
 $router->addRoute('login/check', \App\Controller\LoginController::class . '::check');
 
 // Init application object

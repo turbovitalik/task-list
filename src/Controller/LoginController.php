@@ -3,16 +3,21 @@
 namespace App\Controller;
 
 use App\App;
-use App\Core\Request;
-use App\Core\View;
 
-class LoginController
+class LoginController extends BaseController
 {
     public function index()
     {
-        $view = new View();
+        return $this->view->render('auth/login', []);
+    }
 
-        return $view->render('auth/login', []);
+    public function logout()
+    {
+        $app = App::getInstance();
+        $app->getAuth()->logout();
+
+        //todo: not good, implement redirect() method later
+        header('Location: /task/list');
     }
 
     public function check()
@@ -21,5 +26,8 @@ class LoginController
 
         $app = App::getInstance();
         $app->getAuth()->login($data);
+
+        //todo: not good, implement redirect() method later
+        header('Location: /task/list');
     }
 }

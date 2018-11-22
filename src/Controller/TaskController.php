@@ -53,8 +53,7 @@ class TaskController extends BaseController
         $paginator = new Paginator($this->request, $this->taskRepository);
         $paginator->setItemsPerPage($itemsPerPage);
 
-
-        return $this->view->render('task/list', ['tasks' => $tasks, 'pagination' => $paginator->view()]);
+        return $this->view->render('task/list', ['tasks' => $tasks, 'pagination' => $paginator->view(), 'isAdmin' => $this->isAdmin()]);
     }
 
     public function create()
@@ -84,9 +83,7 @@ class TaskController extends BaseController
 
         $id = (int) $this->request->get('id');
 
-        $taskRepository = new TaskRepository();
-
-        $task = $taskRepository->find($id);
+        $task = $this->taskRepository->find($id);
 
         if (!$task) {
             return $this->resourceNotFound();
