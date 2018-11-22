@@ -7,7 +7,7 @@ use Aura\Session\Segment;
 class Auth
 {
     const ADMIN_USER = 'admin';
-    const ADMIN_PASSWORD = '111';
+    const ADMIN_PASSWORD = '123';
 
     /**
      * @var Segment
