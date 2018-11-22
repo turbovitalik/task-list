@@ -5,6 +5,7 @@ namespace App;
 use App\Controller\TaskController;
 use App\Core\Request;
 use App\Core\Response;
+use App\Core\Router;
 use PDO;
 
 class App
@@ -15,12 +16,18 @@ class App
     protected $db;
 
     /**
+     * @var Router
+     */
+    protected $router;
+
+    /**
      * App constructor.
      * @param PDO $db
      */
-    public function __construct(PDO $db)
+    public function __construct(PDO $db, Router $router)
     {
         $this->db = $db;
+        $this->router = $router;
     }
 
     public function run()
@@ -38,13 +45,7 @@ class App
      */
     public function handleRequest(Request $request): Response
     {
-
-
-        $controller = new TaskController($request);
-
-        $method = 'index';
-
-        $response = $controller->{$method}();
+        $response = $this->router->dispatch($request);
 
         return $response;
     }

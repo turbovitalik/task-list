@@ -42,4 +42,14 @@ class TaskController
         return $view->render('task/list', ['tasks' => $tasks, 'pagination' => $paginator->view()]);
     }
 
+    public function create()
+    {
+
+    }
+
+    public function store()
+    {
+
+    }
+
 }

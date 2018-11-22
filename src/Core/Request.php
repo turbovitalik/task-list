@@ -15,6 +15,11 @@ class Request
     protected $uri;
 
     /**
+     * @var string
+     */
+    protected $method;
+
+    /**
      * @return Request
      */
     public static function createFromGlobals(): Request
@@ -50,6 +55,14 @@ class Request
     public function getRequestUri()
     {
         return $this->uri;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMethod()
+    {
+        return $this->method;
     }
 
     /**

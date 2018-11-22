@@ -12,9 +12,10 @@ try {
 }
 
 $dbConfig = include '../config/database.php';
-
 $mysql = new \App\Database\Mysql( $dbConfig['host'], $dbConfig['database'], $dbConfig['user'], $dbConfig['password']);
 
-$app = new App\App($mysql->getConnection());
+$router = new \App\Core\Router();
+
+$app = new App\App($mysql->getConnection(), $router);
 
 $app->run();
