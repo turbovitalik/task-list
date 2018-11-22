@@ -77,17 +77,19 @@ class TaskMapper
      */
     public function insert(Task $task)
     {
-        $query = "insert into {$this->table} (username, email, text)
-            values (:username, :email, :text)";
+        $query = "insert into {$this->table} (username, email, text, image)
+            values (:username, :email, :text, :image)";
         $stmt = $this->connection->prepare($query);
 
         $username = $task->getUsername();
         $email = $task->getEmail();
         $text = $task->getText();
+        $image = $task->getImage();
 
         $stmt->bindParam(':username', $username);
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':text', $text);
+        $stmt->bindParam(':image', $image);
 
         return $stmt->execute();
     }

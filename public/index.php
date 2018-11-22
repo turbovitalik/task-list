@@ -32,6 +32,7 @@ $router->addRoute('task/edit', \App\Controller\TaskController::class . '::edit')
 $router->addRoute('login', \App\Controller\LoginController::class . '::index');
 $router->addRoute('logout', \App\Controller\LoginController::class . '::logout');
 $router->addRoute('login/check', \App\Controller\LoginController::class . '::check');
+$router->addRoute('', \App\Controller\TaskController::class . '::index'); // Stupid trick for homepage
 
 // Init application object
 $app = new App\App($mysql->getConnection(), $router, $auth);

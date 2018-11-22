@@ -77,6 +77,11 @@ class Task
         $this->email = $email;
     }
 
+    public function setImage($image)
+    {
+        $this->image = $image;
+    }
+
     public function getDone()
     {
         return $this->done;

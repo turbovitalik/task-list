@@ -1,5 +1,6 @@
 <?php include APP_ROOT . 'views/header.php'; ?>
 <form method="post" action="/task/store">
+    <input type="hidden" name="image" value="/media/images/bob.jpg" />
     <div class="form-group">
         <label for="username">Username</label>
         <input name="username" type="text" class="form-control" id="username" placeholder="Name">
