@@ -104,24 +104,9 @@ class Paginator
 
         $queryString = $this->request->getQueryStringFromParams($queryParams);
 
-        $routePath = $this->extractRoutePathFromUri($this->request->getRequestUri());
-
-        $href .= $routePath . '?' . $queryString;
+        $href .= '/' . $this->request->getRoutePath() . '?' . $queryString;
         $href .= $queryString ? '&page=' . $i : 'page=' . $i;
 
         return $href;
-    }
-
-    /**
-     * @param string $uri
-     * @return string
-     */
-    private function extractRoutePathFromUri(string $uri): string
-    {
-        if (preg_match('~(.*)\?.*~', $uri, $match)) {
-            return $match[1];
-        }
-
-        return $uri;
     }
 }

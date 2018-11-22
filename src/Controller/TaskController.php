@@ -44,12 +44,12 @@ class TaskController
 
     public function create()
     {
-
+        echo 'Create';die;
     }
 
     public function store()
     {
-
+        echo 'Store';die;
     }
 
 }

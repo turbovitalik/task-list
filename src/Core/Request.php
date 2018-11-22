@@ -17,6 +17,11 @@ class Request
     /**
      * @var string
      */
+    protected $routePath;
+
+    /**
+     * @var string
+     */
     protected $method;
 
     /**
@@ -28,6 +33,7 @@ class Request
 
         $request->method = $_SERVER['REQUEST_METHOD'];
         $request->uri = $_SERVER['REQUEST_URI'];
+        $request->routePath = self::extractRoutePathFromUri($_SERVER['REQUEST_URI']);
 
         $queryString = $_SERVER['QUERY_STRING'];
         parse_str($queryString, $request->queryParams);
@@ -66,6 +72,14 @@ class Request
     }
 
     /**
+     * @return string
+     */
+    public function getRoutePath()
+    {
+        return $this->routePath;
+    }
+
+    /**
      * @return array
      */
     public function getQueryParams()
@@ -89,5 +103,21 @@ class Request
         }
 
         return $queryString;
+    }
+
+    /**
+     * @param string $uri
+     * @return string
+     */
+    public static function extractRoutePathFromUri(string $uri): string
+    {
+        // Just removing root slash
+        $uri = substr($uri, 1);
+
+        if (preg_match('~(.*)\?.*~', $uri, $match)) {
+            return $match[1];
+        }
+
+        return $uri;
     }
 }
