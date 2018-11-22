@@ -17,6 +17,16 @@ class Paginator
     protected $current;
 
     /**
+     * @var Request
+     */
+    protected $request;
+
+    /**
+     * @var TaskRepository
+     */
+    protected $repo;
+
+    /**
      * Paginator constructor.
      * @param Request $request
      * @param TaskRepository $repo
@@ -37,7 +47,10 @@ class Paginator
         $this->itemsPerPage = $number;
     }
 
-    public function view()
+    /**
+     * @return string
+     */
+    public function view(): string
     {
         $html = '<nav aria-label="Page navigation example"><ul class="pagination">';
 
@@ -91,15 +104,24 @@ class Paginator
 
         $queryString = $this->request->getQueryStringFromParams($queryParams);
 
-        if (preg_match('~(.*)\?.*~', $this->request->getRequestUri(), $match)) {
-            $routePath = $match[1];
-        } else {
-            $routePath = $this->request->getRequestUri();
-        }
+        $routePath = $this->extractRoutePathFromUri($this->request->getRequestUri());
 
         $href .= $routePath . '?' . $queryString;
         $href .= $queryString ? '&page=' . $i : 'page=' . $i;
 
         return $href;
+    }
+
+    /**
+     * @param string $uri
+     * @return string
+     */
+    private function extractRoutePathFromUri(string $uri): string
+    {
+        if (preg_match('~(.*)\?.*~', $uri, $match)) {
+            return $match[1];
+        }
+
+        return $uri;
     }
 }
