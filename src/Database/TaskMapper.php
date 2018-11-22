@@ -89,22 +89,28 @@ class TaskMapper
         return $stmt->execute();
     }
 
-    public function update($id, Address $address)
+    public function update($id, Task $task)
     {
         $id = (int) $id;
-        $fields = $this->mapObjectToArray($address);
-        $fieldsToSet = $this->excludeUnchanged($fields, $address->getUpdatedKeys());
+
+        $fields = $this->mapObjectToArray($task);
+        $fieldsToSet = $this->excludeUnchanged($fields, $task->getUpdatedKeys());
+
         if (!$fieldsToSet) {
             return false;
         }
+
         $query = "update {$this->table} ";
         $query .= "set " . $this->getQuerySetString($fieldsToSet) . " ";
         $query .= "where id = :id";
+
         $stmt = $this->connection->prepare($query);
         $stmt->bindParam(':id', $id);
+
         foreach ($fieldsToSet as $key => $value) {
             $stmt->bindParam(":$key", $value);
         }
+
         return $stmt->execute();
     }
 
@@ -121,6 +127,18 @@ class TaskMapper
             $queryStr .= $key . '=' . $bind;
         });
         return $queryStr;
+    }
+
+    /**
+     * @param $fields
+     * @param $keysOfChanged
+     * @return array
+     */
+    private function excludeUnchanged($fields, $keysOfChanged)
+    {
+        return array_filter($fields, function ($key) use ($keysOfChanged) {
+            return in_array($key, $keysOfChanged);
+        }, ARRAY_FILTER_USE_KEY);
     }
 
     /**

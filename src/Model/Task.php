@@ -11,6 +11,11 @@ class Task
     protected $image;
     protected $done;
 
+    /**
+     * @var array
+     */
+    protected $updated;
+
 //    public function __construct($id = null, $username = null, $email = null, $text = null, $image = null, $done = null)
 //    {
 //        $this->username = $username;
@@ -161,8 +166,19 @@ class Task
         return $camelCased;
     }
 
+    public function populateWith($data)
+    {
+        foreach ($data as $key => $value) {
+            $this->updated[] = $key;
+            $this->__set($key, $value);
+        }
+    }
 
-
-
-
+    /**
+     * @return array
+     */
+    public function getUpdatedKeys()
+    {
+        return $this->updated;
+    }
 }
