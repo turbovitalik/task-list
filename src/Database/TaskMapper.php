@@ -110,7 +110,7 @@ class TaskMapper
         $stmt = $this->connection->prepare($query);
         $stmt->bindParam(':id', $id);
 
-        foreach ($fieldsToSet as $key => $value) {
+        foreach ($fieldsToSet as $key => &$value) {
             $stmt->bindParam(":$key", $value);
         }
 
@@ -154,6 +154,7 @@ class TaskMapper
             'username' => $task->getUsername(),
             'email' => $task->getEmail(),
             'text' => $task->getText(),
+            'done' => $task->getDone(),
         ];
     }
 
