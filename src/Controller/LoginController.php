@@ -22,7 +22,7 @@ class LoginController extends BaseController
 
     public function check()
     {
-        $data = ['username' => 'admin', 'password' => '111'];
+        $data = $this->request->getPost();
 
         $app = App::getInstance();
         $app->getAuth()->login($data);

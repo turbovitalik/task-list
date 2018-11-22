@@ -1,4 +1,10 @@
 <?php include APP_ROOT . 'views/header.php'; ?>
+<?php if ($isAdmin) { ?>
+    <p class="text-success">Now you are admin and can EDIT!</p>
+<?php } else { ?>
+    <p class="text-warning">Unknown user</p>
+<?php } ?>
+<p></p>
 <p>
     <a class="btn btn-primary" href="/task/list?sortBy=username&order=asc&page=1" role="button">Sort by username (asc)</a>
     <a class="btn btn-primary" href="/task/list?sortBy=username&order=desc&page=1" role="button">Sort by username (desc)</a>
