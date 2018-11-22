@@ -25,7 +25,7 @@ class App
 
     public function run()
     {
-        $request = new Request();
+        $request = Request::createFromGlobals();
 
         $response = $this->handleRequest($request);
 
@@ -40,7 +40,7 @@ class App
     {
 
 
-        $controller = new TaskController();
+        $controller = new TaskController($request);
 
         $method = 'index';
 
