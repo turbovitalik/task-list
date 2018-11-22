@@ -25,6 +25,11 @@ class Request
     protected $method;
 
     /**
+     * @var array
+     */
+    protected $post = [];
+
+    /**
      * @return Request
      */
     public static function createFromGlobals(): Request
@@ -41,6 +46,7 @@ class Request
         if ($request->method == 'POST' || $request->method == 'PUT') {
             $content = file_get_contents('php://input');
             $request->body = $content;
+            parse_str($content, $request->post);
         }
 
         return $request;
@@ -53,6 +59,14 @@ class Request
     public function get(string $key): ?string
     {
         return array_key_exists($key, $this->queryParams) ? $this->queryParams[$key] : null;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function post(string $key): ?string
+    {
+        return array_key_exists($key, $this->post) ? $this->post[$key] : null;
     }
 
     /**
