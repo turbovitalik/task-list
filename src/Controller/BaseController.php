@@ -30,6 +30,14 @@ class BaseController
         return $response;
     }
 
+    /**
+     * @param string $url
+     */
+    protected function redirect(string $url)
+    {
+        header('Location: ' . $url);
+    }
+
     protected function resourceNotFound()
     {
         $response = new Response();

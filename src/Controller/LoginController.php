@@ -16,8 +16,7 @@ class LoginController extends BaseController
         $app = App::getInstance();
         $app->getAuth()->logout();
 
-        //todo: not good, implement redirect() method later
-        header('Location: /task/list');
+        $this->redirect('/task/list');
     }
 
     public function check()
@@ -27,7 +26,6 @@ class LoginController extends BaseController
         $app = App::getInstance();
         $app->getAuth()->login($data);
 
-        //todo: not good, implement redirect() method later
-        header('Location: /task/list');
+        $this->redirect('/task/list');
     }
 }
